@@ -29,7 +29,7 @@ sap.ui.define([
 	}
 
 	function goToEmployees () {
-		const url = "https://372ef2fdtrial-dev-employees-approuter.cfapps.us10.hana.ondemand.com/employees/index.html";
+		const url = "https://d1b8d976trial-dev-logali-approuter.cfapps.us10-001.hana.ondemand.com/employees/index.html";
 		const { URLHelper } = sapMLib;
 		URLHelper.redirect(url);
 	}
