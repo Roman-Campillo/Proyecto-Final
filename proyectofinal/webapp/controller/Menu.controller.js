@@ -12,22 +12,23 @@ sap.ui.define([
 
 	}
 	
-	//Función al pulsar sobre el Tile "Crear empleado". Hace un routing a la vista "createEmployee"
+	//Al pulsar sobre el tile “Crear empleado”, se debe navegar a una nueva vista donde el usuario pueda crear un nuevo empleado.
 	function goToCreateEmployee(){
-			//Se obtiene el conjuntos de routers del programa
+			//Se obtiene el conjunto de routers del programa
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			//Se navega hacia el router "CreateEmployee"
 			oRouter.navTo("CreateEmployee",{},false);
 	}
 	
-	//Función al pulsar sobre el Tile "Ver empleados". Hace un routing a la vista "showEmployee"
+	//al pulsar sobre “Ver empleados” se debe navegar a una nueva vista con el patrón “Master - Detail”.
 	function goToShowEmployee(){
-			//Se obtiene el conjuntos de routers del programa
+			//Se obtiene el conjunto de routers del programa
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			//Se navega hacia el router "CreateEmployee"
+			//Se navega hacia el router "ShowEmployee"
 			oRouter.navTo("ShowEmployee",{},false);
 	}
 
+	//Al pulsar sobre el tile “Firmar pedido” se debe navegar a la aplicación que se ha desarrollado durante el máster
 	function goToEmployees () {
 		const url = "https://d1b8d976trial-dev-logali-approuter.cfapps.us10-001.hana.ondemand.com/employees/index.html";
 		const { URLHelper } = sapMLib;
@@ -36,9 +37,9 @@ sap.ui.define([
 
 	return Controller.extend("logaligroup.proyectofinal.controller.Menu", {
 		onInit: onInit,
-		onAfterRendering : onAfterRendering,
+		onAfterRendering   : onAfterRendering,
 		goToCreateEmployee : goToCreateEmployee,
-		goToShowEmployee : goToShowEmployee,
-		goToEmployees: goToEmployees
+		goToShowEmployee   : goToShowEmployee,
+		goToEmployees      : goToEmployees
 	});
 });
