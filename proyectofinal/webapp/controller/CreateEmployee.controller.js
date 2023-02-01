@@ -16,7 +16,7 @@ sap.ui.define([
         this._wizard.discardProgress(oFirstStep);
         // vuelve al inicio
         this._wizard.goToStep(oFirstStep);
-        // invalida primer paso
+        // anula primer paso
         oFirstStep.setValidated(false);
     }
     //Función pulsar tipo de empleado para ir al paso 2
@@ -62,6 +62,35 @@ sap.ui.define([
         } else {
             // En caso de que ya este en el paso 2, se navega directamente 
             this._wizard.goToStep(dataEmployeeStep);
+        }
+    }
+    //Función para validar el dni
+    function validateDNI(oEvent) {
+        //Se comprueba si es dni o cif. En caso de dni, se comprueba su valor. Para ello se comprueba que el tipo no sea "autonomo"
+        if (this._model.getProperty("_type") !== "autonomo") {
+            var dni = oEvent.getParameter("value");
+            var number;
+            var letter;
+            var letterList;
+            var regularExp = /^\d{8}[a-zA-Z]$/;
+            //Se comprueba que el formato es válido
+            if (regularExp.test(dni) === true) {
+                //Número
+                number = dni.substr(0, dni.length - 1);
+                //Letra
+                letter = dni.substr(dni.length - 1, 1);
+                number = number % 23;
+                letterList = "TRWAGMYFPDXBNJZSQVHLCKET";
+                letterList = letterList.substring(number, number + 1);
+                if (letterList !== letter.toUpperCase()) {
+                    this._model.setProperty("/_DniState", "Error");
+                } else {
+                    this._model.setProperty("/_DniState", "None");
+                    this.dataEmployeeValidation();
+                }
+            } else {
+                this._model.setProperty("/_DniState", "Error");
+            }
         }
     }
     //Función para validar los datos del nuevo empleado y poder ir al paso 3
@@ -138,35 +167,6 @@ sap.ui.define([
                 this._wizard.goToStep(this.byId("dataEmployeeStep"));
             }
         }.bind(this));
-    }
-    //Función para validar el dni
-    function validateDNI(oEvent) {
-        //Se comprueba si es dni o cif. En caso de dni, se comprueba su valor. Para ello se comprueba que el tipo no sea "autonomo"
-        if (this._model.getProperty("_type") !== "autonomo") {
-            var dni = oEvent.getParameter("value");
-            var number;
-            var letter;
-            var letterList;
-            var regularExp = /^\d{8}[a-zA-Z]$/;
-            //Se comprueba que el formato es válido
-            if (regularExp.test(dni) === true) {
-                //Número
-                number = dni.substr(0, dni.length - 1);
-                //Letra
-                letter = dni.substr(dni.length - 1, 1);
-                number = number % 23;
-                letterList = "TRWAGMYFPDXBNJZSQVHLCKET";
-                letterList = letterList.substring(number, number + 1);
-                if (letterList !== letter.toUpperCase()) {
-                    this._model.setProperty("/_DniState", "Error");
-                } else {
-                    this._model.setProperty("/_DniState", "None");
-                    this.dataEmployeeValidation();
-                }
-            } else {
-                this._model.setProperty("/_DniState", "Error");
-            }
-        }
     }
     //Función generica para editar un step
     function _editStep(step) {
@@ -283,6 +283,19 @@ sap.ui.define([
         oUploadCollection.upload();
     }
     return Controller.extend("logaligroup.proyectofinal.controller.CreateEmployee", {
+        onBeforeRendering: onBeforeRendering,
+		gotoStep2 : gotoStep2,
+		validateDNI : validateDNI,
+		dataEmployeeValidation : dataEmployeeValidation,
+		wizardCompletedHandler : wizardCompletedHandler,
+		editStepOne : editStepOne,
+		editStepTwo : editStepTwo,
+		editStepThree : editStepThree,
+		onSaveEmployee : onSaveEmployee,
+		onCancel : onCancel,
+		onChange : onChange,
+		onBeforeUploadStart : onBeforeUploadStart,
+		onStartUpload : onStartUpload
     });
 
 });
