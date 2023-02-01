@@ -26,6 +26,12 @@
       "target": "$1",
       "service": "html5-apps-repo-rt",
       "authenticationType": "xsuaa"
+    },
+    {
+      "authenticationType": "none",
+      "csrfProtection": false,
+      "source": "/sap/opu/odata/sap/ZEMPLOYEES_SRV/",
+      "destination":"logaligroupERP"
     }
   ]
 }
